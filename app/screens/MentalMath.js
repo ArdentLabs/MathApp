@@ -61,7 +61,24 @@ export default class MentalMath extends Component {
   handleSubmit = () => {
     const { value } = this.state;
     const { data } = this.props.navigation.state.params;
-    if () {
+
+    let result = null;
+    switch (data.operator) {
+      case '+':
+        result = data.num1 + data.num2;
+        break;
+      case '-':
+        result = data.num1 - data.num2;
+        break;
+      case '*':
+        result = data.num1 * data.num2;
+        break;
+      case '/':
+        result = data.num1 / data.num2;
+        break;
+    }
+
+    if (value === result) {
       this.setState({
         isCorrect: 'true',
       });
@@ -74,69 +91,79 @@ export default class MentalMath extends Component {
   }
 
   render() {
-    const { height, width, value, keyboardHelper } = this.state;
+    const {
+      height,
+      width,
+      value,
+      keyboardHelper,
+      isCorrect
+    } = this.state;
     const { data } = this.props.navigation.state.params;
 
     const smallDimension = height > width ? width : height;
 
     return (
       <View
-        onLayout={this.handleLayout}
-        style={{
-          height: height * 0.6,
-          alignItems: 'center',
-          justifyContent: 'space-around',
-        }}
+        style={{ flex: 1, }}
       >
-        {keyboardHelper}
-        <Text
+        <View
+          onLayout={this.handleLayout}
           style={{
-            fontSize: smallDimension / 5,
+            flex: 0.94,
+            alignItems: 'center',
+            justifyContent: 'space-around',
           }}
         >
-          {data.num1 + ' ' + convert(data.operator) + ' ' + data.num2 + ' ='}
-        </Text>
-        <View>
-          <TextInput
+          {keyboardHelper}
+          <Text
             style={{
-              height: smallDimension / 16,
-              width: smallDimension / 4,
-              fontSize: smallDimension / 22,
-              backgroundColor: 'white',
-              borderWidth: 0.5,
-              borderColor: 'rgb(130, 130, 130)',
-              borderRadius: 5,
-              alignSelf: 'center',
-              textAlign: 'center',
-              shadowColor: 'black',
-              shadowOpacity: 0.1,
-              shadowRadius: 6,
+              fontSize: smallDimension / 5,
             }}
-            placeholder='ANSWER'
-            underlineColorAndroid='transparent'
-            onChangeText={(value) => this.setState({ value })}
-            onFocus={this.captureView}
-            value={value}
-          />
-          <TextButton
-            title='SUBMIT'
-            style={{
-              backgroundColor: '#2196f3',
-              borderWidth: 0.5,
-              borderColor: 'rgb(130, 130, 130)',
-              borderRadius: 5,
-              color: 'white',
-              height: smallDimension / 16,
-              width: smallDimension / 4,
-              fontSize: smallDimension / 22,
-              margin: 10,
-              shadowColor: 'black',
-              shadowOpacity: 0.1,
-              shadowRadius: 6,
-            }}
-            disabled={value === ''}
-            onPress={this.handleSubmit}
-          />
+          >
+            {data.num1 + ' ' + convert(data.operator) + ' ' + data.num2 + ' ='}
+          </Text>
+          <View>
+            <TextInput
+              style={{
+                height: smallDimension / 16,
+                width: smallDimension / 4,
+                fontSize: smallDimension / 22,
+                backgroundColor: 'white',
+                borderWidth: 0.5,
+                borderColor: 'rgb(130, 130, 130)',
+                borderRadius: 5,
+                alignSelf: 'center',
+                textAlign: 'center',
+                shadowColor: 'black',
+                shadowOpacity: 0.1,
+                shadowRadius: 6,
+              }}
+              placeholder='ANSWER'
+              underlineColorAndroid='transparent'
+              onChangeText={(value) => this.setState({ value })}
+              onFocus={this.captureView}
+              value={value}
+            />
+            <TextButton
+              title='SUBMIT'
+              style={{
+                backgroundColor: '#2196f3',
+                borderWidth: 0.5,
+                borderColor: 'rgb(130, 130, 130)',
+                borderRadius: 5,
+                color: 'white',
+                height: smallDimension / 16,
+                width: smallDimension / 4,
+                fontSize: smallDimension / 22,
+                margin: 10,
+                shadowColor: 'black',
+                shadowOpacity: 0.1,
+                shadowRadius: 6,
+              }}
+              disabled={value === ''}
+              onPress={this.handleSubmit}
+            />
+          </View>
         </View>
         <SuccessBar
           textSize={smallDimension /18}
