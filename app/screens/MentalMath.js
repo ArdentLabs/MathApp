@@ -10,7 +10,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import { TextButton } from '../components';
+import { TextButton, SuccessBar } from '../components';
 
 export default class MentalMath extends Component {
   static propTypes = {
@@ -24,6 +24,7 @@ export default class MentalMath extends Component {
       height,
       width,
       value: '',
+      isCorrect: 'neither',
       keyboardHelper: null,
     };
   }
@@ -57,6 +58,21 @@ export default class MentalMath extends Component {
     });
   }
 
+  handleSubmit = () => {
+    const { value } = this.state;
+    const { data } = this.props.navigation.state.params;
+    if () {
+      this.setState({
+        isCorrect: 'true',
+      });
+    }
+    else {
+      this.setState({
+        isCorrect: 'false',
+      });
+    }
+  }
+
   render() {
     const { height, width, value, keyboardHelper } = this.state;
     const { data } = this.props.navigation.state.params;
@@ -78,8 +94,54 @@ export default class MentalMath extends Component {
             fontSize: smallDimension / 5,
           }}
         >
-          A question should go here eventually!
+          {data.num1 + ' ' + convert(data.operator) + ' ' + data.num2 + ' ='}
         </Text>
+        <View>
+          <TextInput
+            style={{
+              height: smallDimension / 16,
+              width: smallDimension / 4,
+              fontSize: smallDimension / 22,
+              backgroundColor: 'white',
+              borderWidth: 0.5,
+              borderColor: 'rgb(130, 130, 130)',
+              borderRadius: 5,
+              alignSelf: 'center',
+              textAlign: 'center',
+              shadowColor: 'black',
+              shadowOpacity: 0.1,
+              shadowRadius: 6,
+            }}
+            placeholder='ANSWER'
+            underlineColorAndroid='transparent'
+            onChangeText={(value) => this.setState({ value })}
+            onFocus={this.captureView}
+            value={value}
+          />
+          <TextButton
+            title='SUBMIT'
+            style={{
+              backgroundColor: '#2196f3',
+              borderWidth: 0.5,
+              borderColor: 'rgb(130, 130, 130)',
+              borderRadius: 5,
+              color: 'white',
+              height: smallDimension / 16,
+              width: smallDimension / 4,
+              fontSize: smallDimension / 22,
+              margin: 10,
+              shadowColor: 'black',
+              shadowOpacity: 0.1,
+              shadowRadius: 6,
+            }}
+            disabled={value === ''}
+            onPress={this.handleSubmit}
+          />
+        </View>
+        <SuccessBar
+          textSize={smallDimension /18}
+          isCorrect={isCorrect}
+        />
       </View>
     );
   }
