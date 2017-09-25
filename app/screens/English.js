@@ -6,7 +6,8 @@ import {
   Button,
   Dimensions,
 } from 'react-native';
-import { MultipleChoice } from '../components';
+
+import { MultipleChoice, SuccessBar } from '../components';
 
 export default class English extends Component {
   static propTypes = {
@@ -19,6 +20,7 @@ export default class English extends Component {
     this.state = {
       height,
       width,
+      isCorrect: 'neither',
     };
   }
 
@@ -30,28 +32,64 @@ export default class English extends Component {
     });
   }
 
+  submit = (submission) => {
+    if (submission) {
+      this.setState({
+        isCorrect: 'true',
+      });
+    }
+    else {
+      this.setState({
+        isCorrect: 'false',
+      });
+    }
+  }
+
   render() {
-    const { height, width } = this.state;
+    const { height, width, isCorrect } = this.state;
     const { data } = this.props.navigation.state.params;
+
+    console.log(data);
 
     const smallDimension = height > width ? width : height;
 
     return (
       <View
-        onLayout={this.handleLayout}
-        style={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'space-around',
-        }}
+        style={{ flex: 1, }}
       >
-        <Text
+        <View
+          onLayout={this.handleLayout}
           style={{
-            fontSize: smallDimension / 10,
+            flex: .94,
+            alignItems: 'center',
+            justifyContent: 'space-around',
           }}
         >
-          A question should go here eventually!
-        </Text>
+          <Text
+            style={{
+              fontSize: smallDimension / 10,
+            }}
+          >
+            {boldify(data.question)}
+          </Text>
+          <MultipleChoice
+            choices={data.choices}
+            answer={data.answer}
+            style={{
+              width: width,
+              backgroundColor: 'transparent',
+              buttonColor: '#2196f3',
+              color: 'black',
+              buttonSize: smallDimension / 16,
+              fontSize: smallDimension / 16,
+            }}
+            onSubmit={this.submit}
+          />
+        </View>
+        <SuccessBar
+            textSize={smallDimension / 18}
+            isCorrect={isCorrect}
+        />
       </View>
     );
   }

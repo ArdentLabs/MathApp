@@ -47,7 +47,7 @@ export default class Start extends Component {
             shadowOpacity: 0.1,
             shadowRadius: 6,
           }}
-          onPress={() => navigate('English', { data: data[28] })}
+          onPress={() => navigate('English', { data: data[31] })}
         />
         <TextButton
           title='Mental Math'

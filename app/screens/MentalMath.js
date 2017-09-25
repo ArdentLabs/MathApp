@@ -9,6 +9,7 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
+
 import { TextButton } from '../components';
 
 export default class MentalMath extends Component {
